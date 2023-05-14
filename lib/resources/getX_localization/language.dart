@@ -13,6 +13,7 @@ class Languages extends Translations {
           'login': 'Login',
           'email_hint': 'Enter Your Email',
           'password_hint': 'Enter Your Password',
+          'password_blank': 'You\'ve forgot to enter the password  '
         },
         'ne_NP': {
           'email_hint': 'ईमेल टाइप गर्नुहोस्',
