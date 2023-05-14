@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:getx_mvvm_2/resources/colors/app_color.dart';
 import 'package:getx_mvvm_2/resources/components/gernal_exception.dart';
+import 'package:getx_mvvm_2/view_model/services/splash_services.dart';
 
 import '../resources/assets/image_assets.dart';
 import '../resources/components/internet_exception_widget.dart';
@@ -18,29 +19,22 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SplashServices splashScreen = SplashServices();
   @override
+  void initState() {
+    super.initState();
+    splashScreen.isLogin();
+  }
+
   Widget build(BuildContext context) {
     // return InternetExceptionWidget();
     return Scaffold(
-      appBar: AppBar(
-        title: Text('email_hint'.tr),
-      ),
-      body: Column(
-        children: [
-          RoundButton(
-            onPress: () {},
-            title: 'Login',
-            height: 50,
-            width: 200,
-          ),
-          RoundButton(
-            onPress: () {},
-            title: 'Signup',
-            loading: true,
-            buttonColor: AppColor.blackColor,
-          )
-        ],
-      ),
+      backgroundColor: Colors.teal,
+      body: Center(
+          child: Text(
+        'welcome_back'.tr,
+        textAlign: TextAlign.center,
+      )),
     );
   }
 }
