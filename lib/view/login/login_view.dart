@@ -35,26 +35,10 @@ class _LoginViewState extends State<LoginView> {
               key: _formkey,
               child: Column(
                 children: [
-                  CustomTextFormField(
-                    controller: loginVM.emailController.value,
-                    focusNode: loginVM.emailFocusNode.value,
-                    hintText: 'email_hint'.tr,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        Utils.snackBar('Email', 'Please Enter Email');
-                      }
-                    },
-                    onFieldSubmitted: (value) {
-                      Utils.fieldFocusChange(
-                          context,
-                          loginVM.emailFocusNode.value,
-                          loginVM.passwordFocusNode.value);
-                    },
-                  ),
-
-                  // TextFormField(
+                  // CustomTextFormField(
                   //   controller: loginVM.emailController.value,
                   //   focusNode: loginVM.emailFocusNode.value,
+                  //   hintText: 'email_hint'.tr,
                   //   validator: (value) {
                   //     if (value!.isEmpty) {
                   //       Utils.snackBar('Email', 'Please Enter Email');
@@ -66,54 +50,78 @@ class _LoginViewState extends State<LoginView> {
                   //         loginVM.emailFocusNode.value,
                   //         loginVM.passwordFocusNode.value);
                   //   },
-                  //   decoration: InputDecoration(
-                  //     hintText: 'email_hint'.tr,
-                  //     border: const OutlineInputBorder(),
-                  //   ),
                   // ),
+
+                  TextFormField(
+                    // autofocus: true,
+                    controller: loginVM.emailController.value,
+                    focusNode: loginVM.emailFocusNode.value,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        Utils.snackBar('Email', 'Please Enter Email');
+                      }
+                    },
+                    onFieldSubmitted: (value) {
+                      Utils.fieldFocusChange(
+                          context,
+                          loginVM.emailFocusNode.value,
+                          loginVM.passwordFocusNode.value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'email_hint'.tr,
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  CustomTextFormField(
-                    controller: loginVM.passwordController.value,
-                    focusNode: loginVM.passwordFocusNode.value,
-                    hintText: 'password_hint'.tr,
-                    obscureText: true,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        Utils.snackBar('Email', 'password_blank'.tr);
-                      }
-                    },
-                  ),
-                  // TextFormField(
+                  // CustomTextFormField(
                   //   controller: loginVM.passwordController.value,
                   //   focusNode: loginVM.passwordFocusNode.value,
+                  //   hintText: 'password_hint'.tr,
+                  //   // obscuringCharacter: '*',
                   //   obscureText: true,
-                  //   obscuringCharacter: '*',
                   //   validator: (value) {
                   //     if (value!.isEmpty) {
-                  //       Utils.snackBar('Password', 'Please Enter Password');
+                  //       Utils.snackBar('Email', 'password_blank'.tr);
                   //     }
                   //   },
-                  //   decoration: InputDecoration(
-                  //       hintText: 'password_hint'.tr,
-                  //       border: const OutlineInputBorder()),
                   // ),
+                  TextFormField(
+                    // autofocus: true,
+                    controller: loginVM.passwordController.value,
+                    focusNode: loginVM.passwordFocusNode.value,
+                    obscureText: true,
+                    obscuringCharacter: '*',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        Utils.snackBar('Password', 'Please Enter Password');
+                      }
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'password_hint'.tr,
+                        border: const OutlineInputBorder()),
+                  ),
                 ],
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            RoundButton(
-              height: 40,
-              width: 80,
-              title: 'login'.tr,
-              onPress: () {
-                print('login Button is clicked');
-                if (_formkey.currentState!.validate()) {}
-              },
-            )
+            Obx(
+              () => RoundButton(
+                height: 40,
+                width: 80,
+                loading: loginVM.loading.value,
+                title: 'login'.tr,
+                onPress: () {
+                  print('login Button is clicked');
+                  if (_formkey.currentState!.validate()) {
+                    loginVM.loginApi();
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

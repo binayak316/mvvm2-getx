@@ -18,7 +18,7 @@ class NetworkApiServices extends BaseApiServices {
     try {
       final response =
           await http.get(Uri.parse(url)).timeout(Duration(seconds: 10));
-      responseJson = returnRespnse(response);
+      responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException('');
     } on RequestTimeOut {
@@ -36,29 +36,35 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     try {
       final response = await http
-          .post(
-            Uri.parse(url),
-            body: jsonEncode(data),
-            //yedi raw data xaina vane chai jsonEncode garinna sidai body:data lekhinxa
-          )
+          .post(Uri.parse(url),
+              // body: jsonEncode(data),
+              body: data
+              //yedi raw data xaina vane chai jsonEncode garinna sidai body:data lekhinxa
+              )
           .timeout(
             Duration(seconds: 10),
           );
+      responseJson = returnResponse(response);
     } on SocketException {
       throw InternetException('');
     } on RequestTimeOut {
       throw RequestTimeOut('');
     }
+    print(responseJson);
+    // if (kDebugMode) {
+    //   print(responseJson);
+    // }
     return responseJson;
   }
 
-  dynamic returnRespnse(http.Response response) {
+  dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 400:
-        throw InvalidUrlException();
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       default:
         throw FetchDataException(
             'Error occurred while communicating with server' +
